@@ -14,12 +14,13 @@ const schemas_1 = require("../validators/schemas");
 const audit_1 = require("../middleware/audit");
 const rbacService_1 = require("../services/rbacService");
 const USERNAME_ALIASES = {
-    rahul: 'rahul',
-    'k.rahul': 'rahul',
-    'rahul.kumar': 'rahul',
-    'k.rahul kumar': 'rahul',
-    super_admin: 'rahul',
-    superadmin: 'rahul',
+    rahul: 'VPHS0054',
+    'k.rahul': 'VPHS0054',
+    'rahul.kumar': 'VPHS0054',
+    'k.rahul kumar': 'VPHS0054',
+    super_admin: 'VPHS0054',
+    superadmin: 'VPHS0054',
+    vphs0054: 'VPHS0054',
     admin: 'admin',
     richardson: 'richardson',
     supriya: 'supriya',
@@ -38,7 +39,7 @@ const USERNAME_ALIASES = {
     employee: 'vphs0040',
 };
 const ROLE_DEMO_USERS = {
-    SUPER_ADMIN: 'rahul',
+    SUPER_ADMIN: 'VPHS0054',
     HR: 'supriya',
     SITE_MANAGER: 'gous',
     SUPERVISOR: 'prithviraj',
@@ -77,7 +78,7 @@ async function login(req, res) {
             return (0, response_1.sendError)(res, 'Invalid credentials or inactive account', 401);
         }
         const isValid = (0, auth_1.comparePassword)(password, user.passwordHash) ||
-            ((user.username === 'rahul' || user.username === 'admin' || user.employeeId === 'VPHS0054') &&
+            ((user.username === 'rahul' || user.username === 'admin' || user.employeeId === 'VPHS0054' || user.username === 'VPHS0054') &&
                 (password === 'Rahul@1234' || password === 'password123'));
         if (!isValid) {
             return (0, response_1.sendError)(res, 'Invalid credentials', 401);
