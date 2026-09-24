@@ -50,3 +50,16 @@ MASTER DATA1 (1).xlsx
 *.zip
 *.bz2
 client/public/vphs_logo_old.png
+.vercel
+.env*
+
+# All Prisma database files anywhere in the project
+**/prisma/*.db
+**/prisma/*.db-journal
+**/*.sqlite
+**/*.sqlite3
+
+**/prisma/*.db.*
+
+# Local old project copy and Windows launcher files
+client-old/

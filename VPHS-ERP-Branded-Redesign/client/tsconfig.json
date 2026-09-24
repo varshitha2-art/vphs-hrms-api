@@ -23,15 +23,3 @@
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
-Sidebar.tsx
-<img
-  src={isCollapsed ? "/vphs_mark.png" : "/vphs_logo.png"}
-  alt="VPHS Services Pvt. Ltd."
-  className={
-    isCollapsed
-      ? "w-10 h-10 rounded-lg object-contain bg-white p-1 border border-slate-200"
-      : "w-[150px] h-11 object-contain bg-white p-1"
-  }
-/>
-</NavLink>
-</div>

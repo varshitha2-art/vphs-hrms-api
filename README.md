@@ -83,11 +83,21 @@ A complete, production-ready enterprise Facility Management & HR ERP System buil
    npx tsx prisma/seed.ts
    ```
 
-3. **Start the Application (Backend + Frontend)**:
+3. **Start the Application**:
+
+   **Option A: 1-Click Unified App (Single Server - Recommended)**:
+   - Double-click `start-app.bat` (on Windows), OR run:
+     ```bash
+     node app.js
+     # or
+     npm start
+     ```
+   - **Unified URL (Frontend + Backend)**: [http://localhost:5000](http://localhost:5000)
+
+   **Option B: Separate Development Servers (with Vite Hot Reload)**:
    ```bash
    npm run dev
    ```
-
    - **Frontend URL**: [http://localhost:5173](http://localhost:5173)
    - **Backend API**: [http://localhost:5000](http://localhost:5000)
 

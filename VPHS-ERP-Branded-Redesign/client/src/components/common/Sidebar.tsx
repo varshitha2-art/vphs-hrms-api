@@ -15,7 +15,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Sparkles,
-  X,
   UserCheck,
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -238,33 +237,41 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <div className="flex flex-col h-full bg-white border-r border-slate-200 text-slate-700 shadow-sm">
       {/* Brand Header */}
       <div className="h-16 flex items-center justify-between px-4 border-b border-slate-200">
-        <NavLink to="/" className="flex items-center gap-3 overflow-hidden group hover:opacity-90 transition-opacity" title="Visit Home / Landing Page">
-          <img/>
-           
-  src={isCollapsed ? "/vphs_mark.png" : "/vphs_logo.png"}
-  alt="VPHS Services Pvt. Ltd."
-  className={
-    isCollapsed
-      ? "w-10 h-10 rounded-lg object-contain bg-white p-1 border border-slate-200"
-      : "w-[150px] h-11 object-contain bg-white p-1"
-  }
-<img
-<<NavLink to="/" className="...">
-  <img
-    src={isCollapsed ? "/vphs_mark.png" : "/vphs_logo.png"}
-    alt="VPHS Services Pvt. Ltd."
-    className={
-      isCollapsed
-        ? "w-10 h-10 rounded-lg object-contain bg-white p-1 border border-slate-200"
-        : "w-[150px] h-11 object-contain bg-white p-1"
-    }
-  />
-</NavLink>
-</div>
-            
+        <NavLink
+          to="/"
+          className="flex items-center gap-3 overflow-hidden group hover:opacity-90 transition-opacity"
+          title="Visit Home / Landing Page"
+        >
+          <img
+            src={isCollapsed ? "/vphs_id_logo.png" : "/vphs_logo.png"}
+            alt="VPHS Services Pvt. Ltd."
+            className={
+              isCollapsed
+                ? "w-10 h-10 rounded-lg object-contain bg-white p-1 border border-slate-200"
+                : "w-[150px] h-11 object-contain bg-white p-1"
+            }
+          />
+        </NavLink>
+      </div>
+
+      {/* Navigation */}
+      <div className="flex-1 overflow-y-auto py-3">
+        {navItems.map((item) => {
+          const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + "/");
+          return (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={`flex items-center gap-3 px-4 py-3 mx-2 mb-1 rounded-xl transition-all group ${
+                isActive
+                  ? "bg-amber-50 text-amber-800 border border-amber-200"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+              }`}
+              title={isCollapsed ? item.name : undefined}
+            >
               <div
                 className={`transition-transform duration-200 ${
-                  isActive ? 'text-amber-700 scale-110' : 'text-slate-400 group-hover:text-slate-700'
+                  isActive ? "text-amber-700 scale-110" : "text-slate-400 group-hover:text-slate-700"
                 }`}
               >
                 {item.icon}
@@ -336,3 +343,4 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </>
   );
 };
+
