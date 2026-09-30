@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -90,12 +90,12 @@ model Employee {
   attendanceLogs       AttendanceLog[]
   auditLogs            AuditLog[]
   documents            Document[]
+  department           Department?       @relation(fields: [departmentId], references: [id])
+  designation          Designation?      @relation(fields: [designationId], references: [id])
   reportingManager     Employee?         @relation("ManagementHierarchy", fields: [reportingManagerId], references: [id])
   subordinates         Employee[]        @relation("ManagementHierarchy")
   shift                Shift?            @relation(fields: [shiftId], references: [id])
   site                 Site?             @relation(fields: [siteId], references: [id])
-  designation          Designation?      @relation(fields: [designationId], references: [id])
-  department           Department?       @relation(fields: [departmentId], references: [id])
   leaveBalances        LeaveBalance[]
   leaveRequests        LeaveRequest[]
   payrollItems         PayrollItem[]
@@ -177,8 +177,8 @@ model SiteAssignment {
   roleAtSite String?
   status     String    @default("ACTIVE")
   createdAt  DateTime  @default(now())
-  site       Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
   employee   Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  site       Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
 
   @@index([employeeId])
   @@index([siteId])
@@ -217,9 +217,9 @@ model Attendance {
   remarks          String?
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
+  employee         Employee        @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   shift            Shift?          @relation(fields: [shiftId], references: [id])
   site             Site?           @relation(fields: [siteId], references: [id])
-  employee         Employee        @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   logs             AttendanceLog[]
 
   @@unique([employeeId, date])
@@ -240,8 +240,8 @@ model AttendanceLog {
   isManual     Boolean     @default(false)
   notes        String?
   createdAt    DateTime    @default(now())
-  employee     Employee    @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   attendance   Attendance? @relation(fields: [attendanceId], references: [id], onDelete: Cascade)
+  employee     Employee    @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
   @@index([employeeId])
   @@index([attendanceId])
@@ -270,8 +270,8 @@ model LeaveBalance {
   pendingDays    Float     @default(0)
   remainingDays  Float     @default(12)
   updatedAt      DateTime  @updatedAt
-  leaveType      LeaveType @relation(fields: [leaveTypeId], references: [id], onDelete: Cascade)
   employee       Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  leaveType      LeaveType @relation(fields: [leaveTypeId], references: [id], onDelete: Cascade)
 
   @@unique([employeeId, leaveTypeId, year])
   @@index([employeeId])
@@ -290,8 +290,8 @@ model LeaveRequest {
   approvalNotes String?
   appliedAt     DateTime  @default(now())
   actionedAt    DateTime?
-  leaveType     LeaveType @relation(fields: [leaveTypeId], references: [id], onDelete: Cascade)
   employee      Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  leaveType     LeaveType @relation(fields: [leaveTypeId], references: [id], onDelete: Cascade)
 
   @@index([employeeId])
   @@index([status])

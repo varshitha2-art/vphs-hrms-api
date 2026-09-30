@@ -8,13 +8,12 @@ import { AuthenticatedRequest } from '../middleware/auth';
 import { getAccessibleSiteIds } from '../services/rbacService';
 
 const USERNAME_ALIASES: Record<string, string> = {
-  rahul: 'VPHS0054',
-  'k.rahul': 'VPHS0054',
-  'rahul.kumar': 'VPHS0054',
-  'k.rahul kumar': 'VPHS0054',
-  super_admin: 'VPHS0054',
-  superadmin: 'VPHS0054',
-  vphs0054: 'VPHS0054',
+  rahul: 'rahul',
+  'k.rahul': 'rahul',
+  'rahul.kumar': 'rahul',
+  'k.rahul kumar': 'rahul',
+  super_admin: 'rahul',
+  superadmin: 'rahul',
   admin: 'admin',
   richardson: 'richardson',
   supriya: 'supriya',
@@ -34,7 +33,7 @@ const USERNAME_ALIASES: Record<string, string> = {
 };
 
 const ROLE_DEMO_USERS: Record<string, string> = {
-  SUPER_ADMIN: 'VPHS0054',
+  SUPER_ADMIN: 'rahul',
   HR: 'supriya',
   SITE_MANAGER: 'gous',
   SUPERVISOR: 'prithviraj',
