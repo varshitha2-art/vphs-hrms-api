@@ -331,27 +331,38 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
       const res: any = await api.post('/employees', payload);
 
       if (res.success && res.data) {
-        if (salaryMode === 'MANUAL') {
-          await api.put(`/employees/${res.data.id}/salary-structure`, {
-            ctc: salaryConfig.salaryCtc,
-            basic: salaryConfig.basic,
-            hra: salaryConfig.hra,
-            conveyance: salaryConfig.conveyance,
-            medicalAllowance: salaryConfig.medicalAllowance,
-            specialAllowance: salaryConfig.specialAllowance,
-            otherAllowance: salaryConfig.otherAllowance,
-            grossSalary: salaryConfig.grossSalary,
-            employerPf: salaryConfig.employerPf,
-            employerEsi: salaryConfig.employerEsi,
-            gratuity: salaryConfig.gratuity,
-            insuranceBenefit: salaryConfig.insuranceBenefit,
-            employeePf: salaryConfig.employeePf,
-            employeeEsi: salaryConfig.employeeEsi,
-            professionalTax: salaryConfig.professionalTax,
-            tdsDeduction: salaryConfig.tdsDeduction,
-            netSalary: salaryConfig.netSalary,
-          });
-        }
+        // Persist the exact salary structure configured in Step 5.
+        // This applies to both AUTO and MANUAL modes so the employee
+        // record always reflects the salary shown during onboarding.
+        await api.put(`/employees/${res.data.id}/salary-structure`, {
+          ctc: salaryConfig.salaryCtc,
+          basic: salaryConfig.basic,
+          da: 0,
+          hra: salaryConfig.hra,
+          conveyance: salaryConfig.conveyance,
+          medicalAllowance: salaryConfig.medicalAllowance,
+          specialAllowance: salaryConfig.specialAllowance,
+          uniformAllowance: 0,
+          leaveWages: 0,
+          lta: 0,
+          foodAllowance: 0,
+          communicationAllowance: 0,
+          variablePay: 0,
+          otherAllowance: salaryConfig.otherAllowance,
+          grossSalary: salaryConfig.grossSalary,
+          employerPf: salaryConfig.employerPf,
+          employerEsi: salaryConfig.employerEsi,
+          bonus: 0,
+          telanganaLwf: 0,
+          gratuity: salaryConfig.gratuity,
+          insuranceBenefit: salaryConfig.insuranceBenefit,
+          employeePf: salaryConfig.employeePf,
+          employeeEsi: salaryConfig.employeeEsi,
+          professionalTax: salaryConfig.professionalTax,
+          tdsDeduction: salaryConfig.tdsDeduction,
+          otherDeduction: 0,
+          netSalary: salaryConfig.netSalary,
+        });
 
         showToast(`Employee ${personalInfo.firstName} ${personalInfo.lastName} (${allocation.employeeId}) onboarded successfully!`, 'success');
         onComplete(res.data);
@@ -397,7 +408,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                 isLight ? 'bg-blue-100 text-blue-800 border-blue-200' : 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'
               }`}>
-                📁 Upload & ✏️ Manual Edit Enabled on Every Page
+                ðŸ“ Upload & âœï¸ Manual Edit Enabled on Every Page
               </span>
             </div>
             <h1 className={`text-xl sm:text-2xl font-extrabold tracking-tight flex items-center gap-2 ${themeTextPrimary}`}>
@@ -476,7 +487,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
             <div className={`border-b pb-3 flex justify-between items-center ${themeBorder}`}>
               <div>
                 <h3 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${themeTextPrimary}`}>
-                  <User className="w-4 h-4 text-amber-500" /> Page 1 — Personal & Contact Information
+                  <User className="w-4 h-4 text-amber-500" /> Page 1 â€” Personal & Contact Information
                 </h3>
                 <p className={`text-[11px] ${themeTextMuted}`}>Legal identity, emergency contacts, addresses, profile photograph & signature uploads.</p>
               </div>
@@ -761,7 +772,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
             <div className={`border-b pb-3 flex justify-between items-center ${themeBorder}`}>
               <div>
                 <h3 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${themeTextPrimary}`}>
-                  <Briefcase className="w-4 h-4 text-cyan-600" /> Page 2 — Professional Background & Work History
+                  <Briefcase className="w-4 h-4 text-cyan-600" /> Page 2 â€” Professional Background & Work History
                 </h3>
                 <p className={`text-[11px] ${themeTextMuted}`}>Prior organization details, experience certificate uploads, offer letter uploads, and resume.</p>
               </div>
@@ -796,7 +807,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
             {/* Resume Upload Box (Applies to all) */}
             <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 ${themeSubCard}`}>
               <div>
-                <span className={`font-bold ${themeTextPrimary} block`}>📄 Upload Updated Resume / Curriculum Vitae (CV)</span>
+                <span className={`font-bold ${themeTextPrimary} block`}>ðŸ“„ Upload Updated Resume / Curriculum Vitae (CV)</span>
                 <span className="text-[11px] text-slate-500 font-mono">
                   Attached: {resumeFileName || 'No resume file attached'}
                 </span>
@@ -917,7 +928,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
                         />
                       </div>
                       <div>
-                        <label className={`block mb-1 ${themeLabel}`}>Previous CTC (₹ / Mo)</label>
+                        <label className={`block mb-1 ${themeLabel}`}>Previous CTC (â‚¹ / Mo)</label>
                         <input
                           type="number"
                           value={exp.previousSalary}
@@ -1033,7 +1044,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
             <div className={`border-b pb-3 flex justify-between items-center ${themeBorder}`}>
               <div>
                 <h3 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${themeTextPrimary}`}>
-                  <FolderLock className="w-4 h-4 text-purple-600" /> Page 3 — Statutory Documents Vault & KYC Verification
+                  <FolderLock className="w-4 h-4 text-purple-600" /> Page 3 â€” Statutory Documents Vault & KYC Verification
                 </h3>
                 <p className={`text-[11px] ${themeTextMuted}`}>Each document supports direct ID editing, Upload, View, Replace, Delete, and Verification status.</p>
               </div>
@@ -1155,7 +1166,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
             <div className={`border-b pb-3 flex justify-between items-center ${themeBorder}`}>
               <div>
                 <h3 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${themeTextPrimary}`}>
-                  <Building2 className="w-4 h-4 text-emerald-600" /> Page 4 — Designation, Client Site & Shift Allocation
+                  <Building2 className="w-4 h-4 text-emerald-600" /> Page 4 â€” Designation, Client Site & Shift Allocation
                 </h3>
                 <p className={`text-[11px] ${themeTextMuted}`}>Assign workforce to corporate client facilities, shift rosters, and upload allocation orders.</p>
               </div>
@@ -1355,7 +1366,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
             <div className={`border-b pb-3 flex justify-between items-center ${themeBorder}`}>
               <div>
                 <h3 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${themeTextPrimary}`}>
-                  <Receipt className="w-4 h-4 text-amber-500" /> Page 5 — Salary Structure, Allowances & CTC Breakdown
+                  <Receipt className="w-4 h-4 text-amber-500" /> Page 5 â€” Salary Structure, Allowances & CTC Breakdown
                 </h3>
                 <p className={`text-[11px] ${themeTextMuted}`}>Auto statutory formulas or manual override for Basic, HRA, PF, ESI, and signed salary agreement upload.</p>
               </div>
@@ -1374,7 +1385,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
                       : 'text-slate-500'
                   }`}
                 >
-                  ⚡ Auto Formulas
+                  âš¡ Auto Formulas
                 </button>
                 <button
                   type="button"
@@ -1388,7 +1399,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
                       : 'text-slate-500'
                   }`}
                 >
-                  ✏️ Manual Override
+                  âœï¸ Manual Override
                 </button>
               </div>
             </div>
@@ -1398,7 +1409,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
               isLight ? 'bg-amber-50/60 border-amber-200' : 'bg-slate-900/60 border-slate-800'
             }`}>
               <div className="flex items-center gap-3">
-                <span className={`font-bold ${themeTextPrimary}`}>Monthly CTC (₹):</span>
+                <span className={`font-bold ${themeTextPrimary}`}>Monthly CTC (â‚¹):</span>
                 <input
                   type="number"
                   step="500"
@@ -1555,7 +1566,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
               <div className="flex items-center justify-between">
                 <div>
                   <span className={`font-bold uppercase text-[11px] block ${isLight ? 'text-amber-800' : 'text-amber-400'}`}>
-                    📄 Page 5 Upload: Signed Salary Structure / CTC Annexure
+                    ðŸ“„ Page 5 Upload: Signed Salary Structure / CTC Annexure
                   </span>
                   <span className="text-xs text-slate-500 font-mono">
                     Attached: {page5Files.salaryAnnexure || 'No file attached'}
@@ -1588,7 +1599,7 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
             <div className={`border-b pb-3 flex justify-between items-center ${themeBorder}`}>
               <div>
                 <h3 className={`text-sm font-bold uppercase tracking-wider flex items-center gap-2 ${themeTextPrimary}`}>
-                  <CreditCard className="w-4 h-4 text-amber-500" /> Page 6 — Bank Account, UPI & Payout Verification
+                  <CreditCard className="w-4 h-4 text-amber-500" /> Page 6 â€” Bank Account, UPI & Payout Verification
                 </h3>
                 <p className={`text-[11px] ${themeTextMuted}`}>Direct NEFT/RTGS salary credit details, cancelled cheque upload, and verification status override.</p>
               </div>
@@ -1824,3 +1835,4 @@ export const EmployeeOnboardingWizard: React.FC<OnboardingWizardProps> = ({
     </div>
   );
 };
+
